@@ -1,0 +1,485 @@
+/*
+ * Meridian's chrome: warm near-white sheets on a warm gray ground, ink text, hairlines
+ * instead of shadows, and the one brand red used only where it carries structure (heading
+ * rules, table header top rules, the meridian in the logo, focus rings, the active nav
+ * tint).
+ *
+ * Meridian keeps its own identity: its own logo, its own name, and a visible disclaimer
+ * that it is fictional training material. That, not neutral styling, is what keeps a
+ * trainee from reading Meridian behaviour as a statement about any real system.
+ *
+ * There is enough structure here to make a hidden control look hidden rather than missing,
+ * which is what the MR-PLT-02 exercises need to be observable at all.
+ *
+ * Motion follows the brand extraction's interaction reference: transitions at 0.15s
+ * ease-in-out on color/background/border only, entrances at 0.3s ease-out, and the
+ * prefers-reduced-motion kill switch. Focus is an outline, never a box-shadow.
+ */
+
+:root {
+  --ink: #1b1b1b;
+  --muted: #6b6b6b;
+  --accent: #af0000;
+  --accent-active: #a52834;
+  --danger: #bf0000;
+  --ok: #198754;
+  --ground: #eae7e5;
+  --sheet: #fcfaf9;
+  --surface: #f2f2f2;
+  --surface-soft: #f7f7f7;
+  --callout: #fbf2f2;
+  --hairline: #8a8a8a;
+  --hairline-soft: #cccccc;
+  --chip: #2b2b2b;
+  --on-chip: #ffffff;
+  --font-display: var(--font-afacad), Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font: 14px/1.5 Arial, 'Helvetica Neue', Helvetica, system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 16px;
+}
+
+/* The design system's signature: a short red rule under the page title. */
+h1::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 3px;
+  margin-top: 8px;
+  background: var(--accent);
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 28px 0 10px;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: var(--hairline-soft);
+  text-underline-offset: 2px;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+}
+
+a:hover {
+  color: var(--accent-active);
+  text-decoration-color: var(--accent-active);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Shell */
+
+.shell {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-template-rows: 56px 1fr auto;
+  min-height: 100vh;
+}
+
+.shell-header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 24px;
+  background: var(--chip);
+  color: var(--on-chip);
+}
+
+.shell-brand {
+  display: inline-flex;
+  align-items: center;
+}
+
+.shell-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.shell-header button {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.35);
+  color: var(--on-chip);
+}
+
+.shell-header button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--on-chip);
+}
+
+.shell-sidebar {
+  background: var(--sheet);
+  border-right: 1px solid var(--hairline-soft);
+  padding: 20px 0;
+}
+
+.shell-section {
+  padding: 16px 16px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.shell-sidebar a {
+  display: block;
+  padding: 7px 16px 7px 20px;
+  color: var(--ink);
+  text-decoration: none;
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    padding-left 0.15s ease-in-out;
+}
+
+.shell-sidebar a:hover {
+  background: var(--surface);
+  padding-left: 24px;
+}
+
+.shell-sidebar a[aria-current='page'] {
+  background: var(--callout);
+  font-weight: 600;
+}
+
+.shell-main {
+  padding: 28px 32px 56px;
+}
+
+.shell-footer {
+  grid-column: 1 / -1;
+  padding: 14px 24px;
+  border-top: 1px solid var(--hairline-soft);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Panels and tables */
+
+.panel {
+  background: var(--sheet);
+  border: 1px solid var(--hairline-soft);
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background: var(--sheet);
+}
+
+caption {
+  caption-side: top;
+  text-align: left;
+  padding-bottom: 6px;
+}
+
+th,
+td {
+  border: 1px solid var(--hairline);
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: var(--surface);
+  font-weight: 600;
+}
+
+/* The table's one accent: a red top rule on the header row. No zebra striping. */
+thead th {
+  border-top: 2px solid var(--accent);
+}
+
+tbody tr {
+  transition: background-color 0.15s ease-in-out;
+}
+
+tbody tr:hover {
+  background: var(--surface);
+}
+
+td.numeric,
+th.numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.money {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Forms and controls */
+
+.field {
+  display: block;
+  margin-bottom: 16px;
+  max-width: 420px;
+}
+
+.field > label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--muted);
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--hairline-soft);
+  border-radius: 4px;
+  background: var(--sheet);
+  color: var(--ink);
+  font: inherit;
+  transition: border-color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: var(--hairline);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+textarea {
+  min-height: 80px;
+}
+
+.field-error {
+  display: block;
+  margin-top: 4px;
+  color: var(--danger);
+}
+
+button {
+  padding: 8px 14px;
+  border: 1px solid var(--hairline-soft);
+  border-radius: 6px;
+  background: var(--sheet);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    transform 0.15s ease-in-out;
+}
+
+button:hover {
+  background: var(--surface);
+  border-color: var(--hairline);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button.primary {
+  background: var(--chip);
+  border-color: var(--chip);
+  color: var(--on-chip);
+}
+
+button.primary:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* Status and errors */
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid var(--hairline-soft);
+  border-radius: 3px;
+  background: var(--surface);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.error-banner {
+  border: 1px solid var(--danger);
+  border-radius: 6px;
+  background: var(--callout);
+  color: var(--danger);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  animation: rise-in 0.3s ease-out both;
+}
+
+.error-banner strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.note {
+  color: var(--muted);
+}
+
+/* A confirmation that just appeared ("added to your cart") rises in like the banner. */
+.flash {
+  animation: rise-in 0.3s ease-out both;
+}
+
+/* Entrances. One-shot, 0.3s ease-out, and only on the blocks that remount when a screen
+   changes: the title first, then panels and top-level tables a beat later. Tables inside
+   panels do not animate on their own; the panel already carries them in. */
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+h1 {
+  animation: rise-in 0.3s ease-out both;
+}
+
+.panel,
+.shell-main > table {
+  animation: rise-in 0.3s ease-out both;
+  animation-delay: 60ms;
+}
+
+.panel table {
+  animation: none;
+}
+
+/* The logo */
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-mark {
+  display: block;
+}
+
+.logo-wordmark {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+/* Sign-in only: the red meridian draws itself in once. */
+.logo-draw .logo-meridian {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: meridian-draw 1s ease-out 0.15s forwards;
+}
+
+@keyframes meridian-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Sign-in sits outside the shell. */
+
+.signin {
+  max-width: 380px;
+  margin: 12vh auto;
+  background: var(--sheet);
+  border: 1px solid var(--hairline-soft);
+  border-radius: 6px;
+  padding: 32px;
+  animation: rise-in 0.3s ease-out both;
+}
+
+.signin-brand {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.signin h1 {
+  text-align: center;
+}
+
+.signin h1::after {
+  margin: 8px auto 0;
+}
+
+.signin-disclaimer {
+  margin: 24px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--hairline-soft);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Kill switch from the brand extraction: motion is a garnish, never a dependency. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

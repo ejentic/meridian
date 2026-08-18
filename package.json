@@ -1,0 +1,33 @@
+{
+  "name": "meridian",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Meridian, a fictional ERP built as a QA training fixture. A teaching fixture, not a product.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "e2e": "playwright test",
+    "db:reset": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./tools/resolve-ts.mjs src/db/reset-cli.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "next": "^16.3.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ejentic/meridian.git"
+  }
+}

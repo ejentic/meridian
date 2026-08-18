@@ -1,0 +1,27 @@
+# Dependencies — reproducible from package-lock.json via `npm install`.
+node_modules/
+
+# Next.js build output and generated type stubs.
+.next/
+next-env.d.ts
+tsconfig.tsbuildinfo
+
+# The local database. It is a fixture rebuilt from schema.sql and seed.ts by
+# `npm run db:reset`, so the generator is the durable record, not the file.
+*.db
+
+# Local environment overrides, per machine.
+.env.local
+
+# Playwright run artifacts. Traces are kept only for failures and are large; the spec
+# files are the durable record of what was asserted.
+test-results/
+playwright-report/
+blob-report/
+# The blast-radius runner's scratch report. It deletes this on a clean finish, so a copy
+# on disk means a run was interrupted, not that anything here is worth keeping.
+defects-verify-report.json
+
+# Agent helper files that `next dev` auto-generates locally.
+AGENTS.md
+CLAUDE.md
